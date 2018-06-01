@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+    <style>
+        body,ul,li,p,h1,div{margin:0px;padding:0px;}
+        ul,li{list-style:none}
+        ul,input{outline:0}
+        #music{position:absolute;width:500px;left:50%;margin-left:-250px;top:100px;background:#fff4f4;height:400px;}
+        ul{overflow:hidden;border-bottom:1px solid #8eb4cb;}
+        .music-title{background:#ff6666;color:#fff;}
+        ul li{float:left;font-size:14px;width:100px;text-align:center;height:40px;line-height:40px;}
+        .music-footer{height:60px;line-height:60px;background:#f19797;padding-left:100px;box-sizing:border-box;position:absolute;bottom:0px;width:100%;}
+        .music-footer p{float:left;width:30%;}
+    </style>
+
+</head>
+<body>
+   <div id="music">
+       <div>
+           <ul class="music-title">
+               <li><input type="checkbox" v-model="ischeckAll">全选</li>
+               <li>歌单</li>
+               <li>歌手</li>
+               <li>专辑</li>
+           </ul>
+           <div class="music-list">
+               <ul v-for="item in listData"  >
+                   <li><input type="checkbox"  v-model="item.ischecked"/></li>
+                   <li>{{item.song}}</li>
+                   <li>{{item.singer}}</li>
+                   <li>{{item.album}}</li>
+               </ul>
+               <!--<ul>-->
+                   <!--<li><input type="checkbox"></li>-->
+                   <!--<li>最美期待</li>-->
+                   <!--<li>周笔畅</li>-->
+                   <!--<li>10</li>-->
+               <!--</ul>-->
+               <!--<ul>-->
+                   <!--<li><input type="checkbox"></li>-->
+                   <!--<li>凉凉</li>-->
+                   <!--<li>张碧晨</li>-->
+                   <!--<li>10</li>-->
+               <!--</ul>-->
+           </div>
+           <div class="music-footer">
+               <p><label for="">统计：</label><span>{{totalCount}}</span></p>
+               <p><label for="">歌手：</label><span>{{seleSingers}}</span></p>
+               <p><label for="">专辑</label><span>{{totalAlbum}}</span></p>
+           </div>
+       </div>
+   </div>
+</body>
+<script>
+    var listData=[
+        {
+           id:Date.now()+Math.random(),
+            song:'最美情侣',
+            singer:'白小白',
+            album:2,
+            ischecked:true
+        },
+        {
+            id:Date.now()+Math.random(),
+            song:'最美期待',
+            singer:'周笔畅',
+            album:8,
+            ischecked:true
+        },
+        {
+            id:Date.now()+Math.random(),
+            song:'凉凉',
+            singer:'张碧晨',
+            album:8,
+            ischecked:false
+        },
+        {
+            id:Date.now()+Math.random(),
+            song:'凉凉',
+            singer:'张碧晨',
+            album:10,
+            ischecked:false
+        }
+    ]
+    new Vue({
+        el:"#music",
+        data:{
+            listData:listData
+        },
+        computed: {
+            ischeckAll:{
+                get(){
+                return this.listData.every(function(item){
+                    return item.ischecked
+                })
+                },
+                set(newValue){
+                    this.listData.forEach(item =>item.ischecked = newValue)
+                }
+            },
+            seleSingers(){
+               let sing= this.listData.filter(item =>item.ischecked)
+                return fn(sing).length
+            },
+            totalCount(){
+                return this.listData.length
+            },
+            totalAlbum(){
+//                过滤后的
+//                return this.listData.filter(item =>item.ischecked).reduce((n,item1) => n+ item1.album,0)
+//                return this.listData.reduce((n,item1) => n + item1.album,0)
+//                原生的
+                let n=0;
+                this.listData.forEach(function(item){
+                    n += item.album
+                })
+                return n;
+            }
+        }
+    })
+    function fn(option){
+        var json = {};
+        var arr = [];
+        option.forEach((item) =>{
+            if(!json[item.singer]){
+                json[item.singer]=true;
+                arr.push(item)
+        }
+        })
+        return arr;
+    }
+</script>
+</html>

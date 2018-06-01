@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+    <style>
+        body,h2,ul,p{margin:0px;padding:0px;font-size:14px;font-family:'微软雅黑'}
+        ul,li{list-style:none;}
+        a{text-decoration:none;color:#333;}
+        #menu .list{margin:100px;}
+        #menu .title{height:34px;line-height:34px;background:#ff6666;color:#fff;width:230px;padding-left:10px;box-sizing:border-box;}
+        #menu .subMenu{width:230px;display:none;}
+        #menu .subMenu li{height:34px;line-height:34px;background:#f1f1f1;border-bottom:1px solid #ccc;}
+        #menu .subMenu li a{display:block;text-align:center;}
+        #menu .subMenu.show{display:block;}
+    </style>
+</head>
+<body>
+     <div id="menu">
+         <div class="list">
+             <div v-for="item ,index in menuData">
+                 <h2 class="title" @click="toggleHandle(index)">{{item.title}}</h2>
+                  <ul class="subMenu" :class="{'show':index === currentIndex}">
+                      <li v-for="option in item.list">
+                          <a href="javascript:">{{option.subtitle}}</a>
+                      </li>
+                  </ul>
+             </div>
+         </div>
+     </div>
+</body>
+<script>
+    var data=[
+        {
+            title:'我的好友',
+            list:[
+                {
+                    subtitle:'only_lili'
+                },
+                {
+                    subtitle:'泡沫之夏'
+                },
+                {
+                    subtitle:'小丸子'
+                },
+                {
+                    subtitle:'叮铛猫'
+                },
+                {
+                    subtitle:'霹雳虎'
+                }
+            ]
+        },
+        {
+            title:'我的朋友',
+            list:[
+                {subtitle:'金刚侠'},
+                {subtitle:'亮晶晶'},
+                {subtitle:'马云不爱钱'},
+                {subtitle:'哈哈'}
+            ]
+        },
+        {
+            title:'我的同学',
+            list:[
+                {subtitle:'小红'},
+                {subtitle:'小明'},
+                {subtitle:'小Q'}
+            ]
+        }
+    ]
+    new Vue({
+        el:"#menu",
+        data:{
+            menuData:data,
+            currentIndex:0
+        },
+        methods:{
+           toggleHandle(index){
+              this.currentIndex = this.currentIndex === index ? "" :index;
+           }
+        }
+    })
+</script>
+</html>

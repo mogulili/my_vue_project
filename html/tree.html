@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+</head>
+<body>
+    <div id="left">
+          <ul>
+              <li class="firstTitle" v-for="item,index in treeData">
+                  {{item.label}}
+                  <ul>
+                      <li class="secondTitle" v-for="option,index in treeData.children">
+                          {{option.label}}
+                          <ul>
+                              <li class="thirdTitle" v-for="item,index in treeData.children.childrenSon">
+                                  {{item.label}}
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+    </div>
+</body>
+<script>
+    let treeData=[
+        {
+            id:'01',
+            label:'转换',
+            children:[
+                {
+                id:'0101',
+                label:'转换1',
+                    childrenSon:[
+                        {
+                            id:'010101',
+                            label:'DB连接'
+                        },
+                        {
+                            id:'010102',
+                            label:'step(步骤)'
+                        },
+                        {
+                            id:'010103',
+                            label:'Hops(节点连接)'
+                        },
+                        {
+                            id:'010104',
+                            label:'数据库分区'
+                        }
+                        ,
+                        {
+                            id:'010105',
+                            label:'子服务器'
+                        }
+                    ]
+            },
+                {
+                    id:'0102',
+                    label:'转换2'
+                },
+                {
+                    id:'0103',
+                    label:'转换3'
+                }
+            ]
+        },
+        {
+            id:'02',
+            label:'作业'
+        },
+        {
+            id:'03',
+            label:'数据库连接'
+        }
+    ];
+    new Vue({
+        el:"#left",
+        data:{
+            treeData:treeData
+        },
+        methods:{
+
+        }
+    })
+</script>
+</html>

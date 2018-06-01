@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+</head>
+<body>
+        <div id="app">
+            <!--//简易留言版-->
+            <input type="text" v-model="inputV" />
+            <button @click="sendHandle()">发送</button>
+            <ul>
+            <li v-for="(item,index) in list">{{item.title}}</li>
+            </ul>
+        </div>
+</body>
+<script>
+    var list=[
+        {id:'01',title:'121212'}
+    ];
+    new Vue({
+        el:'#app',
+        data:{
+            list:list,
+            inputV:''
+        },
+        methods:{
+            sendHandle:function(){
+                this.list.push({
+                        id:Date.now(),
+                        title:this.inputV
+                    }
+
+                )
+            }
+        }
+    })
+</script>
+</html>

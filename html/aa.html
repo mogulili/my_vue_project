@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+    <style>
+        .header>div{float:left;width:100px;text-align:center;height:40px;line-height:40px;background:#ccc;border-right:2px solid red;}
+        .section>div{width:320px;height:100px;border:1px solid red;}
+        .active{color:red;}
+    </style>
+</head>
+<body>
+   <div id="demolist">
+        <div class="menu" v-for="item,index in listData">
+            <h2 @click="menuHandle(index)" :class="{active:index ===current}">{{item.title}}</h2>
+            <ul :style="{display:index === current?'block':'none'}">
+                <li v-for="option in item.list">{{option.subTitle}}</li>
+            </ul>
+        </div>
+   </div>
+</body>
+<script>
+    let listData=[
+        {
+            title:'我的好友',
+            list:[
+                {subTitle:'刘涛'},
+                {subTitle:'罗晋'}
+            ]
+        },
+        {
+            title:'我的同学',
+            list:[
+                {subTitle:'唐嫣'},
+                {subTitle:'小胖'}
+            ]
+        },
+        {
+            title:'企业好友',
+            list:[
+                {subTitle:'马云'}
+            ]
+        }
+    ]
+    new Vue({
+        el:"#demolist",
+        data:{
+            listData:listData,
+            current:0
+        },
+        methods:{
+            menuHandle(i){
+                this.current=i
+            }
+        }
+    })
+</script>
+</html>

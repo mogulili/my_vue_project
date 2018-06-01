@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+    <style>
+        body,h4,p,ul{margin:0px;padding:0px;}
+        ul,li{list-style:none;}
+        .modal{
+            width:300px;
+            height:200px;
+            margin:30px auto;
+            border:1px solid #ccc;
+            position:relative;
+        }
+        .modal .modal-header h4{
+            height:40px;
+            line-height:40px;
+            padding-left:10px;
+            box-sizing:border-box;
+            background:#8eb4cb;
+            width:100%;
+        }
+        .modal .modal-footer{
+            background:#8eb4cb;
+            position:absolute;
+            bottom:0px;
+            width:100%;
+            text-align:right;
+            padding:5px 0px;
+        }
+        .modal .modal-content div{padding:10px;}
+        .modal .modal-footer button{
+            height:32px;line-height:32px;width:80px;margin-right:10px;
+        }
+    </style>
+</head>
+<body>
+   <div id="demo">
+       <a-modal @on-ok="ok"></a-modal>
+       <a-modal modal-title="提醒">
+           <template slot="modal-content">
+               <ul>
+                   <li v-for="item in list">
+                       <h4>{{item.title}}</h4>
+                       <p>{{item.content}}</p>
+                   </li>
+               </ul>
+           </template>
+           <div slot="modal-footer">
+               <button>确定</button>
+               <button>重置</button>
+               <button>取消</button>
+           </div>
+
+       </a-modal>
+
+   </div>
+</body>
+<script>
+    Vue.component('a-modal',{
+        props:{
+            modalTitle:{
+                type:String,
+                default:'模态框'
+            }
+        },
+        template:`<div class="modal">
+           <div class="modal-header">
+               <h4>{{modalTitle}}</h4>
+           </div>
+           <div class="modal-content">
+               <div>
+                  <slot name="modal-content">添加内容</slot>
+               </div>
+           </div>
+           <div class="modal-footer">
+              <slot name="modal-footer">
+                   <button @click="okHandle">确定</button>
+                   <button @click="cancelHandle">取消</button>
+               </slot>
+           </div>
+       </div>`,
+        methods:{
+            okHandle(){
+                alert('我触发了')
+                 this.$emit('on-ok')
+            },
+            cancelHandle(){
+                this.$emit('on-cancel')
+            }
+        }
+    })
+    let list=[
+        {title:'第一条新闻',content:'新闻内容'},
+        {title:'第一条新闻',content:'新闻内容'},
+        {title:'第一条新闻',content:'新闻内容'}
+    ]
+    new Vue({
+        el:"#demo",
+        data:{
+            list:list
+        },
+        methods:{
+            ok(){
+                alert('点击了确定')
+            },
+            cancel(){
+                alert('点击了取消')
+            }
+
+        }
+    })
+</script>
+</html>

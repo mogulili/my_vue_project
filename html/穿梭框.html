@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>穿梭框</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+    <style>
+        input,button,ul{outline:none;}
+        ul,li{list-style:none;}
+        #transfer>div{float:left;}
+        .transfer-list{
+            width:300px;
+            height:400px;
+            border:1px solid #ccc;
+        }
+        .transfer-list-title{
+            height:40px;
+            line-height:40px;
+            background:#8eb4cb;
+            padding-left:10px;
+            box-sizing:border-box;
+            position:relative;
+            color:#fff;
+        }
+        .transfer-header-count{position:absolute;right:10px;}
+        .transfer-list-body{padding:10px;}
+        .transfer-operation{
+            padding:10px;
+            height:400px;
+            position:relative;
+            width:80px;
+        }
+        .transfer-operation button{
+            position:relative;
+            top:40%;
+            width:60px;
+            height:34px;
+            line-height:34px;
+            background:#ccc;
+            color:#fff;
+            margin-bottom:10px;
+            border:1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="transfer">
+        <transfer-list title="源列表" :data="originData"></transfer-list>
+        <div class="transfer-operation">
+            <button @click="rightHandle"> >> </button>
+            <button @click="leftHandle"> << </button>
+        </div>
+        <transfer-list title="目标列表" :data="targetList"></transfer-list>
+    </div>
+</body>
+<script>
+    let data = {
+        originData: [
+            {
+                id: '1000',
+                checked: false,
+                title: 'js课程'
+            },
+            {
+                id: '1100',
+                checked: true,
+                title: 'css课程'
+            },
+            {
+                id: '1110',
+                checked: false,
+                title: 'jquery课程'
+            },
+            {
+                id: '1111',
+                checked: false,
+                title: 'vue课程'
+            }
+        ],
+        targetList:[
+            {
+                id: '2000',
+                checked: true,
+                title: 'node课程'
+            },
+            {
+                id: '2100',
+                checked: false,
+                title: 'canvas课程'
+            },
+            {
+                id: '2110',
+                checked: true,
+                title: 'es6课程'
+            },
+            {
+                id: '2111',
+                checked: false,
+                title: 'webpack课程'
+            }
+        ]
+    }
+    Vue.component('transfer-list',{
+        props:["title","data"],
+        template:`<div class="transfer-list">
+            <div class="transfer-list-title">
+                <input type="checkbox"/>
+                <span class="transfer-header-title">{{title}}</span>
+                <span class="transfer-header-count">{{changeLen}}/{{data.length}}</span>
+            </div>
+            <div class="transfer-list-body">
+                <ul class="transfer-list-content">
+                    <li class="transfer-list-content-item" v-for="item in data">
+                        <input type="checkbox" v-model="item.checked">
+                        <span>{{item.title}}</span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>`,
+        computed:{
+            changeLen(){return this.data.filter(item =>item.checked).length}
+        }
+    });
+    new Vue({
+        el:"#transfer",
+        data:{
+            isCheck:false,
+            ...data
+        },
+        methods:{
+            //common
+        fun(obj1,obj2){
+            let originCheck = obj1.filter(item =>item.checked).map((item)=>{
+                return {
+                    ...item,
+                checked:false
+            }
+        })
+            obj2.push(...originCheck)
+            return obj1.filter(item => !item.checked)
+        },
+//            从源到目标
+            rightHandle(){
+                this.originData = this.fun(this.originData,this.targetList)
+            },
+//        从目标到源
+            leftHandle(){
+                this.targetList = this.fun(this.targetList,this.originData)
+           }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/demo.css">
+    <script src="../js/vue-dev/dist/vue.js"></script>
+</head>
+<body>
+   <div class="wrapper">
+       <div class="header">
+           <span>logo</span>
+       </div>
+       <div class="main" id="main">
+           <div class="menu-content">
+               <ul>
+                   <li>主对象树</li>
+                   <li>核心对象</li>
+               </ul>
+               <div>
+                   <label for="">{{searchTitle}}</label><!--用数据替换里面的内容 -->
+                   <input type="text">
+                   <button>搜索</button>
+                   <div class="list-cont">
+                       <ul>
+                           <li v-for="item in treeData">
+                               <a href="javascript:">{{item.name}}</a>
+                               <ul>
+                                   <li v-for="second_item in item.second">
+                                       <a href="javascript:">{{second_item.name}}</a>
+                                       <ul>
+                                           <li v-for="third_item in second_item.third">
+                                               <a href="javascript:">{{third_item.name}}</a>
+                                           </li>
+                                           <!--<li><a href="javascript:">Hadoop clusters</a></li>-->
+                                           <!--<li><a href="javascript:">子服务器</a></li>-->
+                                       </ul>
+                                   </li>
+                               </ul>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+           <div class="show-content"></div>
+       </div>
+   </div>
+</body>
+<script>
+    let treeData = [
+        {
+            id:new Date()+Math.random(),
+            name:'作业',
+            namecode:'1',
+            second:[
+                {name:'作业一',namecode:'2',
+                 third:[
+                     {name:'Run configurations',namecode:'3'},
+                     {name:'DB连接',namecode:'3'},
+                     {name:'作业项目',namecode:'3'}
+                 ]
+                },
+                {name:'作业二',namecode:'12'}
+            ]
+        },{
+            id:new Date()+Math.random(),
+            name:'转换',
+            namecode:'1'
+        },{
+            id:new Date()+Math.random(),
+            name:'子服务器',
+            namecode:'1'
+        }
+    ]
+    new Vue({
+        el:"#main",
+        data:{
+            searchTitle:'浏览器',
+            treeData:treeData
+        }
+    })
+</script>
+</html>

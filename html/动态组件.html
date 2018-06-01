@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+</head>
+<body>
+     <div id="demo">
+         <button @click="tabcomponent(1)">切换到第一个组件</button>
+         <button @click="tabcomponent(2)">切换到第二个组件</button>
+         <button @click="tabcomponent(3)">切换到第三个组件</button>
+       <keep-alive>
+         <component :is="current"></component>
+       </keep-alive>
+     </div>
+</body>
+<script>
+   var first = Vue.component('first',{
+        template:`<div @click="changebg">这是第一个组件</div>`,
+       methods:{
+            changebg(ev){
+                ev.target.style.background='red'
+            }
+       }
+    });
+   var second = Vue.component('second',{
+        template:`<div>这是第二个组件</div>`
+    });
+   var third = Vue.component('third',{
+        template:`<div>这是第三个组件</div>`
+    });
+    new Vue({
+        el:"#demo",
+        data:{
+            current:first
+        },
+        methods:{
+            tabcomponent(index){
+                if(index === 1){
+                    this.current = first
+                }else if(index === 2){
+                    this.current = second
+                }else if(index === 3){
+                    this.current = third
+                }
+            }
+        }
+    })
+</script>
+</html>

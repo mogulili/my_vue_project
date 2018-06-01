@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--vue-cli脚手架提供功能
+   生成目录结构
+    本地开发调试
+   代码部署
+   热加载
+   单元测试
+-->
+安装vue-cli
+    npm install -g vue-cli
+生成目录
+    vue init webpack <project>
+     安装vux: npm install -S vux
+    安装less：npm install -D less less-loader
+ 启动开发环境
+    npm run devv
+</body>
+<!--vuex-->多个组件共用同一个状态
+    1、集中式存储管理状态
+    2、一种可预测的方式发生变化
+什么情况下使用vuex：
+    1、多个视图依赖于同一状态
+    2、来自不同视图的行为需要变更同一状态
+安装：
+    npm i vuex --save
+  作为插件使用：Vue.use(Vuex)
+  定义容器：new Vuex.store()
+  注入根实例{
+              store
+              }
+  创建store文件在项目中src目录下，新建index.js
+</html>

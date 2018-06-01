@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <h3>父组件中使用了count</h3>
+        {{count}}
+       <con-demo :count="count" @increment-click="countHandle"></con-demo>
+    </div>
+</body>
+<script>
+    Vue.component('con-demo',{
+        //props验证，不能写数组形式，应写成一个对象形式
+//        props:['count'],
+        props:{
+            count:{
+//                type:Number, //数据类型
+//                type:[Number,String], //多种类型以数组形式呈现
+//                default:1, //默认值,后面可以写个函数：function(){ return 100 }
+//                required:true //必须传入参数，否则报错
+//                自定义验证规则
+                validator:function(value){
+                    console.log(value)
+                    return value>10
+                }
+            }
+        },
+        data(){
+           return{
+               incrementCount:this.count
+           }
+        },
+//        作为data中局部数据的初始值使用
+         computed:{
+            incrementCount2(){
+                return this.incrementCount
+            }
+         },
+// 计算属性依赖data,作为子组件中的computed属性
+        template:`<div>
+            <button @click="changeValue">改变count值</button>
+            {{incrementCount2}}
+        </div>`,
+        methods:{
+            changeValue(){
+                this.incrementCount++
+                this.$emit('increment-click')
+            }
+        }
+    })
+    new Vue({
+        el:"#demo",
+        data:{
+            count:20
+        },
+        methods:{
+            countHandle(){
+                this.count++
+            }
+        }
+    })
+</script>
+</html>

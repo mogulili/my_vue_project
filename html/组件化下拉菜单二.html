@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/vue-dev/dist/vue.js"></script>
+</head>
+<body>
+<div id="demo">
+    <div style="float:left">
+     <select-demo btn="查询"></select-demo>
+    </div>
+    <div style="float:left">
+        <select-demo btn="搜索"></select-demo>
+    </div>
+</div>
+</body>
+<script>
+    Vue.component("select-demo",{
+        data:function(){
+          return {
+              selectShow:false
+          }
+        },
+        props:["btn"],
+       template: `<section class="wrap">
+         <div class="searchIpt clearFix">
+             <div class="clearFix">
+                 <input type="text" class="keyWord" @click="selectShow = !selectShow">
+                 <input type="button" :value="btn">
+                 <span></span>
+             </div>
+             <listdemo></listdemo>
+         </div>
+     </section>`
+    })
+    Vue.component('listdemo',{
+        template:`
+        <ul class="list">
+                 <li>html+css</li>
+                 <li>html5+css3</li>
+                 <li>javascript</li>
+                 <li>angular</li>
+                 <li>react</li>
+                 <li>vue</li>
+                 <li>jquery</li>
+                 <li>node.js</li>
+             </ul>
+        `
+    })
+    new Vue({
+        el:"#demo",
+        data:[
+            list1:
+        ]
+    })
+</script>
+</html>

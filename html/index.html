@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="../js/vue-dev/dist/vue.js"></script>
+    <!--<script type="text/javascript" src="../js/inde-x.js"></script>-->
+</head>
+<body>
+<div class="container">
+    <div class="page-top">
+        <div class="page-content">
+            <h1>任务计划列表</h1>
+        </div>
+    </div>
+    <div class="main" id="main">
+        <h1 class="big-title">添加任务</h1>
+        <input type="text" class="inputText" placeholder="吃饭睡觉打豆豆;    提示：+enter即可添加任务" v-model="todolist" @keyup.13="addList"/>
+        <ul class="task-active" v-show="listcon.length">
+            <li class="oncheck">{{nocheckList}}个未完成</li>
+            <li class="action">
+                <a href="#" class="active">所有任务</a>
+                <a href="#">未完成任务</a>
+                <a href="#">已完成任务</a>
+            </li>
+        </ul>
+        <div class="task-list">
+            <h1 class="big-title">任务列表：</h1>
+            <p class="notask" v-show="!listcon.length">还没有添加任何任务</p>
+            <ul class="list">
+                <li
+                        class="list-content"
+                        :class="{complete:item.ischecked,editing:item === edtortodo}"
+                        v-for="(item,index) in listcon"
+                >
+                    <input type="checkbox" class="toggle" id="toggle" v-model="item.ischecked"/>
+                    <label for="toggle" @dblclick="editInput(item)">{{item.title}}</label>
+                    <input type="text"
+                           class="edit"
+                           v-model = "item.title"
+                           v-focus="edtortodo === item"
+                           @blur="edited(item)"
+                           @keyup.13="edited(item)"
+                           @keyup.esc="canceledit(item)"
+                    />
+                    <button class="destroy" @click="deleteTodo(item)"></button>
+                </li>
+                <!--<li class="list-content complete">-->
+                    <!--<input type="checkbox" class="toggle" id="toggle" checked/>-->
+                    <!--<label for="toggle">奥特曼打小怪兽</label>-->
+                    <!--<button class="destroy"></button>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var listcon = [
+//        {
+//            title:'列表一',
+//            ischecked:false
+//        },
+//        {
+//            title:'列表二',
+//            ischecked:true
+//        }
+    ];
+    new Vue({
+        el:"#main",
+        data:{
+            listcon:listcon,
+            todolist:'',
+            edtortodo:'',
+            beforetodo:''
+        },
+        computed:{
+            nocheckList(){
+                return this.listcon.filter(function(item){
+                    return !item.ischecked
+                }).length
+            }
+        },
+        methods:{
+            addList(){
+                this.listcon.push({
+                    title:this.todolist,
+                    ischecked:false
+                })
+                this.todolist=''
+            },
+            deleteTodo(todolist){
+                var index = this.listcon.indexOf(todolist)
+                console.log(index)
+                this.listcon.splice(index,1)
+            },
+            editInput(todo){
+                this.beforetodo = todo.title
+                this.edtortodo = todo
+            },
+            edited(todo){
+                this.edtortodo=''
+            },
+            //取消编辑
+            canceledit(todo){
+                todo.title=this.beforetodo
+                this.beforetodo=''
+                this.edtortodo=''
+    }
+        },
+        directives:{
+            'focus':{
+                update(el,binding){
+                    if(binding.value){
+                     el.focus()
+                    }
+                }
+            }
+        }
+    })
+    //``
+</script>
+</html>

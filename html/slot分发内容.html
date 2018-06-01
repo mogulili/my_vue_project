@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <h2>自定义组件</h2>
+        <cont-demo>
+            <!--<div>内容分发，我是html结构</div>-->
+            <!--//一一对应替换 在slot标签内通过name标识，html结构对应标签通过slot属性等于name值来标识.  批量处理使用内置标签template包裹-->
+            <div slot="one">替换第1个提醒</div>
+            <div slot="three">替换第3个提醒</div>
+
+            <template slot="two">
+                <div>替换第2个提醒</div>
+                <p>替换第2个</p>
+                <p>替换第2个</p>
+            </template>
+        </cont-demo>
+    </div>
+</body>
+<script>
+//    使用一种方式混合父组件的内容与子组件自己的模板。这个过程被称为“内容内容分发”，在子组件中使用特殊的<slot>元素作为内容的插槽。这样会使组件的可扩展性更强
+//    单个slot:
+//         在子组件模板中有slop标签，被视为备用内容，在父组件不提供内容情况下使用。如果父组件提供内容，则把整个内容片段插入到slot所在的dom位置，并替换掉slot标签本身。
+//    具名slot：
+//       <slot>元素可以用一个特殊的属性name来配置如何分发内容。
+//        可以使用一个匿名的slot，处理那些没有对应slot的内容
+//    编译作用域：
+//        父组件模板的内容在父组件作用域内编译;
+//        子组件模板的内容在子组件作用域内编译。
+    Vue.component('cont-demo',{
+        //自定义模版，在子组件中使用固定结构
+        template:`
+             <div>
+                 <!--<slot>我是默认结构，子组件内没有元素标签时会显示，有标签时会被替换</slot>-->
+                 <!--//用html结构替换下面的p标签
+                 <slot>
+                      <p>第一个提醒</p>
+                      <p>第二个提醒</p>
+                      <p>第三个提醒</p>
+                  </slot>
+                 -->
+
+                     <slot name="one"> <p>第一个提醒</p></slot>
+                     <slot name="two"> <p>第二个提醒</p></slot>
+                      <slot name="three"><p>第三个提醒</p></slot>
+
+            </div>`
+    })
+    new Vue({
+        el:"#demo"
+    })
+</script>
+</html>

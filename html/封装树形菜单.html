@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue-dev/dist/vue.js"></script>
+    <style>
+        div,p,h1,ul{margin:0px;padding:0px;}
+        ul,li{list-style:none;}
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .tree-menu {
+            width: 360px;
+            height: 100%;
+            padding: 0px 12px;
+            border-right: 1px solid #e6e9f0;
+        }
+
+        .tree-menu-comm span {
+            display: block;
+            font-size: 12px;
+            position: relative;
+        }
+
+        .tree-contro .ico {
+            background-position: 3px -92px;
+        }
+
+        .tree-title .ico {
+            position: absolute;
+            left: -13px;
+            top: 0;
+            width: 15px;
+            height: 26px;
+            background: url(../img/folder-tree.png) no-repeat 4px -43px;
+            opacity: 0.8;
+        }
+
+        .tree-menu-comm span strong {
+            display: block;
+            width: 82%;
+            position: relative;
+            line-height: 22px;
+            padding: 2px 0;
+            padding-left: 5px;
+            color: #161719;
+            font-weight: normal;
+        }
+
+        .tree-nav {
+            background: #e7f2fe;
+            border: 1px solid #bfdaf4;
+            padding-left: 14px;
+            margin-left: 0px;
+        }
+
+        .tree-title {
+            border: 1px solid #fff;
+            margin-top: 1px;
+        }
+        /*无箭头*/
+
+        .tree-contro-none .ico {
+            background-position: -999px -99px;
+        }
+        /*箭头朝下*/
+
+        .tree-contro .ico {
+            background-position: 3px -92px;
+        }
+    </style>
+</head>
+<body>
+    <div id="demo">
+        <m-tree :data="treeList"></m-tree>
+    </div>
+</body>
+<script>
+    Vue.component('m-tree-list',{
+        props:{
+            data:{
+                type:Array,
+                default:[]
+            },
+            increment:{
+                type:Number,
+                default:0
+            }
+        },
+        computed:{
+            count(){
+               var c=this.increment
+                return ++c
+            },
+            stylePadd(){
+                return {
+                    'padding-left': this.count * 16 + 'px'
+                }
+            }
+        },
+        template:`<ul>
+                     <li v-for="item in data">
+                        <div class="tree-title"  :style="[stylePadd]" >
+                           <span><strong>{{item.title}}</strong><i class="ico"></i></span>
+                       </div>
+                           <m-tree-list v-if="item.children" :data="item.children" :increment="count"></m-tree-list>
+                     </li>
+
+            </ul>`
+    })
+    Vue.component('m-tree',{
+        props:{
+            data:{
+                type:Array,
+                default:[]
+            }
+        },
+        template:`<div class="tree-menu-comm tree-menu">
+                <ul>
+                     <li v-for="item in data">
+                        <div class="tree-title">
+                           <span><strong>{{item.title}}</strong><i class="ico"></i></span>
+                       </div>
+                       <!--//如果循环的item有children属性，那么生成下一级
+                    <ul v-if="item.children">
+                        <li v-for="item2 in item.children">
+                          <div class="tree-title">
+                           <span></span><strong>{{item2.title}}</strong><i class="icon"></i>
+                       </div>
+                        </li>
+                   </ul>
+            -->
+                       <m-tree-list v-if="item.children" :data="item.children"></m-tree-list>
+
+                    </li>
+
+               </ul>
+        </div>`
+    })
+    let data=[
+        {
+            title:'个人分组',
+            children:[{
+                    title:'我的好友',
+                    children:[{
+                            title:'林心如'
+                        },{
+                        title:'刘涛'
+                        }]
+                }, {
+                    title:'我的同学',
+                    children:[{title:'吴尊'}]
+                }]
+        },{
+        title:'企业分组'
+    }
+    ]
+    new Vue({
+        el:"#demo",
+        data:{
+            treeList:data
+        }
+    })
+</script>
+</html>
